@@ -44,7 +44,7 @@ module.exports = generators.Base.extend({
       message: 'Package type',
       choices: ['Public', 'Private']
     }], function (props) {
-      this.appame = camelCase(props.appname)
+      this.appname = camelCase(props.appname)
       this.moduleName = kebabCase(props.appname)
       this.description = props.description
       this.authorName = props.author
