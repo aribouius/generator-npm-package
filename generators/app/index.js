@@ -1,19 +1,21 @@
-const generators = require('yeoman-generator')
-const chalk = require('chalk')
+const fs = require('fs')
+const path = require('path')
 const yosay = require('yosay')
+const camelCase = require('lodash.camelcase')
+const kebabCase = require('lodash.kebabcase')
+const generators = require('yeoman-generator')
 
 module.exports = generators.Base.extend({
   constructor: function () {
     generators.Base.apply(this, arguments)
-
     this.option('skip-install', {
-      desc: 'Skip the bower and node installations',
+      desc: 'Skip module installations',
       defaults: false
     })
   },
 
   initializing: function () {
-    this.log(yosay('Create your own ' + chalk.blue('node-package') + '!'));
+    this.log(yosay('Create your own npm package!'));
   },
 
   prompting: function () {
@@ -22,37 +24,59 @@ module.exports = generators.Base.extend({
     this.prompt([{
       type: 'input',
       name: 'appname',
-      message: 'Project name',
+      message: 'Package name',
       default: this.appname
     }, {
       type: 'input',
       name: 'description',
-      message: 'Project description'
+      message: 'Package description'
     }, {
       type: 'input',
-      name: 'gitUser',
-      message: 'GitHub user or organization'
+      name: 'author',
+      message: 'Author name'
+    }, {
+      type: 'input',
+      name: 'email',
+      message: 'Author email'
+    }, {
+      type: 'list',
+      name: 'private',
+      message: 'Package type',
+      choices: ['Public', 'Private']
     }], function (props) {
-      this.appname     = props.appname
+      this.appame = camelCase(props.appname)
+      this.moduleName = kebabCase(props.appname)
       this.description = props.description
-      this.gitUser     = props.gitUser
+      this.authorName = props.author
+      this.authorEmail = props.email
+      this.gitUser = props.gitUser
+      this.isPrivate = props.private === 'Private'
+      this.currentYear = new Date().getFullYear()
       done()
     }.bind(this))
   },
 
   writing: function () {
-    this.template('src', 'src')
-    this.template('test', 'test')
-    this.template('_package.json', 'package.json')
-    this.template('.babelrc', '.babelrc')
-    this.template('.eslintrc', '.eslintrc')
-    this.template('.gitignore', '.gitignore')
-    this.template('.npmignore', '.npmignore')
-    this.template('index.js', 'index.js')
-    this.template('README.md', 'README.md')
+    const copyFile = this.template.bind(this)
+    copyFiles(this.templatePath(), this.destinationPath())
+
+    function copyFiles(src, dest) {
+      fs.readdirSync(src).forEach(function(file) {
+        const _file = path.join(src, file)
+        const _dest = path.join(dest, file.replace(/^_/, ''))
+        if (fs.statSync(_file).isDirectory()) {
+          return copyFiles(_file, _dest)
+        }
+        copyFile(_file, _dest)
+      })
+    }
   },
 
   install: function () {
-    this.npmInstall()
+    this.installDependencies({
+      npm: true,
+      bower: false,
+      skipInstall: this.options['skip-install']
+    })
   }
 })
