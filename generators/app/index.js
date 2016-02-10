@@ -32,6 +32,10 @@ module.exports = generators.Base.extend({
       message: 'Package description'
     }, {
       type: 'input',
+      name: 'gitUser',
+      message: 'GitHub user or organization',
+    }, {
+      type: 'input',
       name: 'author',
       message: 'Author name'
     }, {
