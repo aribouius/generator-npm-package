@@ -1,6 +1,6 @@
 {
   "name": "generator-npm-package",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Yeoman generator for NPM packages",
   "homepage": "https://github.com/aribouius/generator-npm-package",
   "repository": {
