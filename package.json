@@ -1,13 +1,23 @@
 {
   "name": "generator-npm-package",
   "version": "1.0.0",
-  "description": "",
+  "description": "Yeoman generator for NPM packages",
+  "homepage": "https://github.com/aribouius/generator-npm-package",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aribouius/generator-npm-package.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aribouius/generator-npm-package/issues"
+  },
   "files": [
     "generators/app"
   ],
   "author": "Ari Bouius <aribouius@gmail.com>",
   "license": "MIT",
   "keywords": [
+    "yeoman",
+    "generator",
     "yeoman-generator"
   ],
   "dependencies": {
