@@ -42,19 +42,19 @@ module.exports = generators.Base.extend({
       type: 'input',
       name: 'email',
       message: 'Author email'
-    }, {
+    }, /*{
       type: 'list',
       name: 'private',
       message: 'Package type',
       choices: ['Public', 'Private']
-    }], function (props) {
+    }*/], function (props) {
       this.appname = camelCase(props.appname)
       this.moduleName = kebabCase(props.appname)
       this.description = props.description
       this.authorName = props.author
       this.authorEmail = props.email
       this.gitUser = props.gitUser
-      this.isPrivate = props.private === 'Private'
+      //this.isPrivate = props.private === 'Private'
       this.currentYear = new Date().getFullYear()
       done()
     }.bind(this))
