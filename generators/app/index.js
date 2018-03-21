@@ -48,6 +48,7 @@ module.exports = generators.Base.extend({
       message: 'Package type',
       choices: ['Public', 'Private']
     }*/], function (props) {
+      this.destPath = (this.appname.toLowerCase() === props.appname.toLowerCase()) ? './' : props.appname + '/';
       this.appname = camelCase(props.appname)
       this.moduleName = kebabCase(props.appname)
       this.description = props.description
@@ -62,7 +63,7 @@ module.exports = generators.Base.extend({
 
   writing: function () {
     const copyFile = this.template.bind(this)
-    copyFiles(this.templatePath(), this.destinationPath())
+    copyFiles(this.templatePath(), this.destPath)
 
     function copyFiles(src, dest) {
       fs.readdirSync(src).forEach(function(file) {
